@@ -19,6 +19,21 @@
         app:layout_constraintVertical_bias="0.770" />
 
     <Button
+        android:id="@+id/Notifica"
+        android:layout_width="365dp"
+        android:layout_height="100dp"
+        android:onClick="activity2"
+        android:text="Self-destruction"
+        android:textSize="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <Button
         android:id="@+id/Indietro"
         android:onClick="indietro"
         android:layout_width="105dp"

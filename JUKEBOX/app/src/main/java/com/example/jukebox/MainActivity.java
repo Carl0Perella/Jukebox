@@ -16,31 +16,32 @@ public class MainActivity extends AppCompatActivity {
     Button GeneraNumero;
     TextView Numero;
     int numrand;
-    TextView text1;
-    Button cambiaActivity;
-    int n; //numero random
+    int counter=0;
+    Button Musica;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        text1 = findViewById(R.id.showButton);
-        cambiaActivity = findViewById(R.id.cambiaActivity);
+        GeneraNumero= findViewById(R.id.GeneraNumero);
+        Numero = findViewById(R.id.Numero);
+        Musica = findViewById(R.id.Musica);
     }
 
     public void Estrazionenumero(View view){
-
+        counter++;
         Random rand = new Random();
-        numrand = rand.nextInt(10);
+        numrand = rand.nextInt(16);
         Numero.setText(Integer.toString(numrand+1));
     }
 
 
-    public void Musicactivity(View view){
-        Intent ActivityMusic = new Intent(getApplicationContext(), Music.class);
-        ActivityMusic.putExtra("NumeroRandom", numrand);
-        startActivity(ActivityMusic);
+    public void Activity2(View view){
+        Intent Music = new Intent(getApplicationContext(), Music.class);
+        Music.putExtra("NumeroRandom", numrand);
+        Music.putExtra("click", counter);
+        startActivity(Music);
 
     }
 }

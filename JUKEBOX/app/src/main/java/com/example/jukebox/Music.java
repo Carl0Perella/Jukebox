@@ -14,6 +14,10 @@ public class Music extends AppCompatActivity {
     Button youtube;
     Button Indietro;
     Button Avanti;
+    Button Notifica;
+    int Randomnum;
+    TextView musicasual;
+    int clicks;
 
 
     @Override
@@ -23,12 +27,17 @@ public class Music extends AppCompatActivity {
         Button youtube= findViewById(R.id.Youtube);
         Button Indietro= findViewById(R.id.Indietro);
         Button Artista= findViewById(R.id.Artisti);
+        Button Notifica= findViewById(R.id.Notifica);
+        clicks = getIntent().getExtras().getInt("click");
         Randomnum = getIntent().getExtras().getInt("NumeroRandom");
         musicasual = findViewById(R.id.Canzone);
         musicasual.setText(Musica[Randomnum]);
+        if ( clicks >= 7){
+            Notifica.setVisibility(View.VISIBLE);
+        };
     }
-    int Randomnum;
-    TextView musicasual;
+
+
 
     String[] Musica = {
             "Metro Boomin, The Weeknd, 21 Savage - Creepin' (Visualizer)",
@@ -83,6 +92,7 @@ public class Music extends AppCompatActivity {
                 Toast.LENGTH_SHORT);
         Messaggio.show();
     }
+
 
 
 
