@@ -1,14 +1,28 @@
 package com.example.jukebox;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Handler;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+
 
 public class Music extends AppCompatActivity {
     Button youtube;
@@ -18,6 +32,10 @@ public class Music extends AppCompatActivity {
     int Randomnum;
     TextView musicasual;
     int clicks;
+    MediaPlayer player=null;
+    Handler handler = new Handler();
+    double startTime = 0;
+    SeekBar musicbar=null;
 
 
     @Override
@@ -28,6 +46,11 @@ public class Music extends AppCompatActivity {
         Button Indietro= findViewById(R.id.Indietro);
         Button Artista= findViewById(R.id.Artisti);
         Button Notifica= findViewById(R.id.Notifica);
+        musicbar =(SeekBar) findViewById(R.id.bar);
+        MediaPlayer player = MediaPlayer.create(this, Audio[Randomnum]);
+        Button Pause= findViewById(R.id.Pause);
+        Button Stop= findViewById(R.id.Stop);
+        Button Play= findViewById(R.id.Play);
         clicks = getIntent().getExtras().getInt("click");
         Randomnum = getIntent().getExtras().getInt("NumeroRandom");
         musicasual = findViewById(R.id.Canzone);
@@ -36,33 +59,94 @@ public class Music extends AppCompatActivity {
             Notifica.setVisibility(View.VISIBLE);
         };
     }
+    private Runnable updateBar = new Runnable() {
+        public void run()
+        {
+            startTime = player.getCurrentPosition();
+            musicbar.setProgress((int)startTime);
+            handler.postDelayed(this, 100);
+        }
+    };
+    public void play(View v)
+    {
+        player.start();
+        musicbar.setMax((int) player.getDuration());
+        handler.postDelayed(updateBar,100);
+    }
+    public void pause(View v)
+    {
+        player.pause();
+    }
+    public void stop(View v)
+    {
+        player.stop();
+    }
+
+
 
 
 
     String[] Musica = {
-            "Metro Boomin, The Weeknd, 21 Savage - Creepin' (Visualizer)",
-            "Drake, 21 Savage - Rich Flex (Audio)",
-            "Taylor Swift - Anti-Hero (Official Music Video)",
-            "Imagine Dragons - Bones (Official Music Video)",
-            "Harry Styles - As It Was (Official Video)",
-            "Camila Cabello ft. Ed Sheeran - Bam Bam (Official Music Video)",
-            "Fireboy DML & Ed Sheeran - Peru (Official Video)",
-            "Lizzo - About Damn Time [Official Video]",
-            "Tiësto & Ava Max - The Motto (Official Music Video)",
-            "Joji - Glimpse of Us"
+            "My heart is cold",
+            "Livin’on a player",
+            "Eye of the tiger",
+            "Car’s outside",
+            "La cumbia de free fire",
+            "Paranoid",
+            "Black in black",
+            "Out of my league",
+            "Fearless",
+            "Gipsy woman",
+            "Snap",
+            "Hero",
+            "Get lucky",
+            "As it was",
+            "Safe and sound",
+            "Tous le memes"
+    };
+    int[] Audio = {
+            "My heart is cold",
+            "Livin’on a player",
+            "Eye of the tiger",
+            "Car’s outside",
+            "La cumbia de free fire",
+            "Paranoid",
+            "Black in black",
+            "Out of my league",
+            "Fearless",
+            "Gipsy woman",
+            "Snap",
+            "Hero",
+            "Get lucky",
+            "As it was",
+            "Safe and sound",
+            "Tous le memes"
+    };
+    int[] Immagini = {
+
+
+
+
+
     };
 
     String[] link = {
-            "https://www.youtube.com/watch?v=61ymOWwOwuk&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=1",
-            "https://www.youtube.com/watch?v=I4DjHHVHWAE&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=5",
-            "https://www.youtube.com/watch?v=b1kbLwvqugk&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=7",
-            "https://www.youtube.com/watch?v=TO-_3tck2tg&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=12",
-            "https://www.youtube.com/watch?v=H5v3kku4y6Q&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=14",
-            "https://www.youtube.com/watch?v=-8VfKZCOo_I&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=16",
-            "https://www.youtube.com/watch?v=pekzpzNCNDQ&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=17",
-            "https://www.youtube.com/watch?v=IXXxciRUMzE&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=18",
-            "https://www.youtube.com/watch?v=1_4ELAxKrDc&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=19",
-            "https://www.youtube.com/watch?v=FvOpPeKSf_4&list=RDCLAK5uy_nqRa4MZhGLlzdFysGGDQyuGA43aqJR8FQ&index=21"
+            "https://youtu.be/OvkOOxklAKE",
+            "https://youtu.be/ohFtQIPqGSo",
+            "https://youtu.be/_qDML_BCju8",
+            "https://youtu.be/BxPaGW55PUo",
+            "https://youtu.be/WoYQDX2a14o",
+            "https://youtu.be/0qanF-91aJo",
+            "https://youtu.be/pAgnJDJN4VA",
+            "https://youtu.be/I-QmZpLWjHc",
+            "https://youtu.be/S19UcWdOA-I",
+            "https://youtu.be/_KztNIg4cvE",
+            "https://youtu.be/--eH76tgoNw",
+            "https://youtu.be/ONJ2Cr8h6A8",
+            "https://youtu.be/4D7u5KF7SP8",
+            "https://youtu.be/Qfm6nfz1QNQ",
+            "https://youtu.be/jR-OsKMD80c",
+            "https://youtu.be/P5yUiK2qNdg"
     };
 
     String[] Artista= {
@@ -78,8 +162,8 @@ public class Music extends AppCompatActivity {
             "10"
     };
     public void indietro(View view) {
-        Intent ActivityMusic = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(ActivityMusic);
+        Intent Activityindietro = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(Activityindietro);
 
     }
 
@@ -91,6 +175,34 @@ public class Music extends AppCompatActivity {
         Toast Messaggio = Toast.makeText(this, Artista[Randomnum],
                 Toast.LENGTH_SHORT);
         Messaggio.show();
+    }
+    public void notifica(View v) {
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notifica")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("ALLERTA ASSALTO NUCLEARE")
+                .setContentText("HAI 20 SECONDI PRIMA DELL ESPLOSIONE")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            NotificationChannel channel = new NotificationChannel("notifica", "nome", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("descrizione");
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationManagerCompat notifiManager = NotificationManagerCompat.from(this);
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        notifiManager.notify(1, builder.build());
+
+
     }
 
 
